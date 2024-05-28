@@ -1,0 +1,31 @@
+using Exiled.API.Interfaces;
+
+namespace Stuck
+{
+    public class Config : IConfig
+    {
+        public bool IsEnabled { get; set; } = true;
+        public bool Debug { get; set; }
+
+        public string OutOfMapMessage { get; set; } = "Teleporting you back to your last position.";
+
+        public bool AllowDClass { get; set; } = true;
+        public bool AllowScientist { get; set; } = true;
+        public bool AllowGuard { get; set; } = true;
+        public bool AllowFacilityGuard { get; set; } = true;
+        public bool AllowNtfScientist { get; set; } = true;
+        public bool AllowNtfCommander { get; set; } = true;
+        public bool AllowNtfLieutenant { get; set; } = true;
+        public bool AllowNtfCadet { get; set; } = true;
+        public bool AllowChaosInsurgency { get; set; } = true;
+        public bool AllowScp049 { get; set; } = true;
+        public bool AllowScp0492 { get; set; } = true;
+        public bool AllowScp079 { get; set; } = true;
+        public bool AllowScp096 { get; set; } = true;
+        public bool AllowScp106 { get; set; } = true;
+        public bool AllowScp173 { get; set; } = true;
+        public bool AllowScp93953 { get; set; } = true;
+        public bool AllowScp93989 { get; set; } = true;
+        public object Instance { get; set; }
+    }
+}
