@@ -1,0 +1,69 @@
+using Exiled.API.Enums;
+using Exiled.API.Features;
+
+namespace Stuck
+{
+    public class Plugin : Plugin<Config>
+    {
+        private static readonly Lazy<Plugin> LazyInstance = new Lazy<Plugin>(() => new Plugin());
+        public static Plugin Instance => LazyInstance.Value;
+
+        private Plugin()
+        {
+        public override string Name => "Stuck?";
+        public override string Author => "🧀Chesse_grater™🧀";
+        public override Version Version => new Version(1, 0, 0);
+        public override Version RequiredExiledVersion => new Version(5, 0, 0); // Update to match your EXILED version
+        }
+
+    public class get
+    {
+    }
+
+    public override PluginPriority Priority { get; } = PluginPriority.Medium;
+
+        public override void OnEnabled()
+        {
+            Exiled.Events.Handlers.Player.SendingConsoleCommand += OnSendingConsoleCommand;
+            base.OnEnabled();
+        }
+
+        public override void OnDisabled()
+        {
+            Exiled.Events.Handlers.Player.SendingConsoleCommand -= OnSendingConsoleCommand;
+            base.OnDisabled();
+        }
+
+        private void OnSendingConsoleCommand(SendingConsoleCommandEventArgs ev)
+        {
+            if (!ev.Name.Equals("stuck", StringComparison.OrdinalIgnoreCase))
+                return;
+
+            if (ev.Player == null || ev.Player.IsHost || ev.Player.IsInvisible)
+                return;
+
+            if (!ev.Player.IsAlive || (!ev.Player.IsScp && !ev.Player.IsHuman))
+                return;
+
+            if (ev.Player.Position.Y < -1998f)
+            {
+                ev.Player.Position = ev.Player.ReferenceHub.characterClassManager.NetworkPosition;
+                ev.ReturnMessage = Config.Instance.OutOfMapMessage;
+            }
+            else
+            {
+                ev.ReturnMessage = "Command not available as you are inside the map.";
+            }
+
+            ev.IsAllowed = false; // Prevent the default execution of the command
+        }
+    }
+
+    internal class SendingConsoleCommandEventArgs
+    {
+        public object Name { get; set; }
+        public object Player { get; set; }
+        public string ReturnMessage { get; set; }
+        public bool IsAllowed { get; set; }
+    }
+}
